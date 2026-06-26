@@ -136,8 +136,8 @@ function SparkLine() {
         strokeLinejoin="round"
         fill="none"
       />
-      {/* Active dot */}
-      <circle cx="198" cy="8" r="3" fill="#06b6d4" stroke="#0a0a0f" strokeWidth="1.5"/>
+      {/* Active dot — use CSS variable colours */}
+      <circle cx="198" cy="8" r="3" fill="var(--clr-cyan-500)" stroke="var(--clr-bg-00)" strokeWidth="1.5"/>
     </svg>
   );
 }

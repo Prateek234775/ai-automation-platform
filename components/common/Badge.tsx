@@ -1,26 +1,38 @@
-/**
- * Badge – small pill label for eyebrows, tags, and status indicators.
- *
- * Props:
- *  - children:  React.ReactNode
- *  - variant?:  "accent" | "outline" | "subtle"  (default "accent")
- *  - icon?:     React.ReactNode  (optional leading icon)
- *
- * Usage:
- *  <Badge variant="accent" icon={<SparkIcon />}>New Feature</Badge>
- */
+import { cn } from "@/lib/cn";
 
-type BadgeVariant = "accent" | "outline" | "subtle";
+type BadgeVariant =
+  | "accent"
+  | "secondary"
+  | "highlight"
+  | "success"
+  | "warning"
+  | "error"
+  | "outline"
+  | "subtle"
+  | "eyebrow";
 
 interface BadgeProps {
-  children: React.ReactNode;
-  variant?: BadgeVariant;
-  icon?: React.ReactNode;
+  children:  React.ReactNode;
+  variant?:  BadgeVariant;
+  icon?:     React.ReactNode;
+  className?: string;
 }
 
-export function Badge({ children, variant = "accent", icon }: BadgeProps) {
+/**
+ * Badge – pill label that maps to the design system badge classes.
+ *
+ * @example
+ *   <Badge variant="accent">New Feature</Badge>
+ *   <Badge variant="eyebrow">Platform Capabilities</Badge>
+ */
+export function Badge({
+  children,
+  variant  = "accent",
+  icon,
+  className,
+}: BadgeProps) {
   return (
-    <span>
+    <span className={cn("badge", `badge-${variant}`, className)}>
       {icon && <span aria-hidden="true">{icon}</span>}
       {children}
     </span>

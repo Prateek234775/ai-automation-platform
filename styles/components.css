@@ -26,9 +26,7 @@
   cursor: pointer;
   border: 1px solid transparent;
   border-radius: var(--radius-lg);
-  transition: var(--transition-colors),
-              transform var(--duration-fast) var(--ease-spring),
-              box-shadow var(--duration-base) var(--ease-default);
+  /* Transition defined in animations.css */
   text-decoration: none;
   position: relative;
   overflow: hidden;
@@ -36,7 +34,7 @@
   user-select: none;
 }
 
-/* Shine sweep on hover (pseudo overlay) */
+/* Shine sweep pseudo — transition defined in animations.css */
 .btn::before {
   content: "";
   position: absolute;
@@ -48,7 +46,7 @@
     transparent 70%
   );
   transform: translateX(-100%);
-  transition: transform var(--duration-slow) var(--ease-default);
+  pointer-events: none;
 }
 .btn:hover::before {
   transform: translateX(100%);
@@ -252,12 +250,9 @@
               0 0 0 1px var(--color-border-accent);
 }
 
-/* Interactive hover state – applies to .card-glass, .card-solid, .card-elevated */
+/* Interactive hover state – transition defined in animations.css */
 .card-interactive {
   cursor: pointer;
-  transition: var(--transition-colors),
-              transform var(--duration-base) var(--ease-spring),
-              box-shadow var(--duration-base) var(--ease-default);
 }
 .card-interactive:hover {
   transform: translateY(-3px);
@@ -527,64 +522,6 @@
 .input:disabled {
   opacity: 0.45;
   cursor: not-allowed;
-}
-
-
-/* ────────────────────────────────────────────────────────────
-   HOVER UTILITIES
-   Standalone utility classes for hover treatments.
-   ──────────────────────────────────────────────────────────── */
-
-/* Text link hover */
-.hover-accent {
-  transition: color var(--transition-base);
-}
-.hover-accent:hover {
-  color: var(--color-text-accent);
-}
-
-/* Lift transform */
-.hover-lift {
-  transition: transform var(--duration-base) var(--ease-spring),
-              box-shadow var(--duration-base) var(--ease-default);
-}
-.hover-lift:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-/* Scale */
-.hover-scale {
-  transition: transform var(--duration-fast) var(--ease-spring);
-}
-.hover-scale:hover {
-  transform: scale(1.03);
-}
-
-/* Glow ring */
-.hover-glow {
-  transition: box-shadow var(--duration-base) var(--ease-default);
-}
-.hover-glow:hover {
-  box-shadow: var(--shadow-glow-md);
-}
-
-/* Underline reveal */
-.hover-underline {
-  position: relative;
-}
-.hover-underline::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 0;
-  height: 1px;
-  background: var(--gradient-brand);
-  transition: width var(--duration-base) var(--ease-out);
-}
-.hover-underline:hover::after {
-  width: 100%;
 }
 
 

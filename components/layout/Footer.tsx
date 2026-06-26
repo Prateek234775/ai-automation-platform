@@ -170,8 +170,11 @@ const LEGAL_LINKS: FooterLink[] = [
 
 /* ─── Root component ─────────────────────────────────────────────────── */
 
+// Build-time constant — avoids hydration mismatch from Date() differing
+// between server render and client hydration.
+const CURRENT_YEAR = new Date().getFullYear();
+
 export function Footer() {
-  const year = new Date().getFullYear();
 
   return (
     <footer
@@ -269,9 +272,9 @@ export function Footer() {
         </div>
 
         {/* ── Bottom bar ── */}
-        <div className="footer-bottom" role="contentinfo">
+        <div className="footer-bottom">
           <p className="footer-bottom__copy text-caption">
-            © {year} {SITE_NAME}, Inc. All rights reserved.
+            © {CURRENT_YEAR} {SITE_NAME}, Inc. All rights reserved.
           </p>
 
           <div className="footer-bottom__badges" aria-label="Compliance certifications">

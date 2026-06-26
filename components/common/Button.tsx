@@ -1,34 +1,15 @@
-/**
- * Button – base interactive element used across all sections.
- *
- * Variants:
- *  - "primary"   → solid accent background (default)
- *  - "secondary" → outlined / ghost
- *  - "ghost"     → no border, text-only
- *
- * Sizes:
- *  - "sm" | "md" (default) | "lg"
- *
- * Props extend native <button> attributes, so it accepts:
- *  onClick, disabled, type, aria-*, etc.
- *
- * Can render as <a> when `href` is supplied (polymorphic).
- *
- * Usage:
- *  <Button variant="primary" size="lg">Get Started Free</Button>
- *  <Button variant="secondary" href="/docs">Read Docs</Button>
- */
-
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
+import { cn } from "@/lib/cn";
 
-type ButtonVariant = "primary" | "secondary" | "ghost";
-type ButtonSize    = "sm" | "md" | "lg";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "highlight" | "danger";
+type ButtonSize    = "sm" | "md" | "lg" | "xl";
 
 interface BaseProps {
-  variant?: ButtonVariant;
-  size?:    ButtonSize;
-  children: React.ReactNode;
+  variant?:  ButtonVariant;
+  size?:     ButtonSize;
+  children:  React.ReactNode;
   className?: string;
+  fullWidth?: boolean;
 }
 
 type ButtonAsButton = BaseProps &
@@ -39,24 +20,44 @@ type ButtonAsAnchor = BaseProps &
 
 type ButtonProps = ButtonAsButton | ButtonAsAnchor;
 
+/**
+ * Button – polymorphic button/anchor that maps to the design system btn classes.
+ * Renders <a> when `href` is supplied, <button> otherwise.
+ *
+ * @example
+ *   <Button variant="primary" size="lg">Get Started</Button>
+ *   <Button variant="secondary" href="/docs">Read Docs</Button>
+ */
 export function Button({
-  variant = "primary",
-  size = "md",
+  variant   = "primary",
+  size      = "md",
+  fullWidth = false,
   children,
   className,
   ...rest
 }: ButtonProps) {
+  const classes = cn(
+    "btn",
+    `btn-${variant}`,
+    `btn-${size}`,
+    fullWidth && "btn-full",
+    className,
+  );
+
   if ("href" in rest && rest.href) {
     const { href, ...anchorRest } = rest as ButtonAsAnchor;
     return (
-      <a href={href} {...anchorRest}>
+      <a href={href} className={classes} {...anchorRest}>
         {children}
       </a>
     );
   }
 
   return (
-    <button {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}>
+    <button
+      className={classes}
+      {...(rest as ButtonHTMLAttributes<HTMLButtonElement>)}
+    >
       {children}
     </button>
   );
