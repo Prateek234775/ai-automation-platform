@@ -1,0 +1,207 @@
+/* ============================================================
+   TYPOGRAPHY SYSTEM
+   All sizes use fluid clamp() so they respond to viewport
+   width without breakpoint jumps.
+   Headings → JetBrains Mono (set on h1-h6 in globals.css)
+   Body      → Inter         (set on body in globals.css)
+   ============================================================ */
+
+
+/* ────────────────────────────────────────────────────────────
+   DISPLAY  –  Hero headlines, landing section titles
+   ──────────────────────────────────────────────────────────── */
+
+.text-display-2xl {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 6vw + 1rem, 6.5rem);    /* 48px → 104px */
+  line-height: 1.0;
+  letter-spacing: -0.04em;
+  font-weight: var(--fw-extrabold);
+}
+
+.text-display-xl {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw + 0.75rem, 5rem);  /* 40px → 80px  */
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  font-weight: var(--fw-extrabold);
+}
+
+.text-display-lg {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw + 0.5rem, 3.75rem);  /* 32px → 60px  */
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: var(--fw-bold);
+}
+
+.text-display-md {
+  font-family: var(--font-heading);
+  font-size: clamp(1.625rem, 3vw + 0.5rem, 2.75rem); /* 26px → 44px */
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-weight: var(--fw-bold);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   HEADING  –  Section headings, card titles
+   ──────────────────────────────────────────────────────────── */
+
+.text-heading-xl {
+  font-family: var(--font-heading);
+  font-size: clamp(1.375rem, 2.5vw + 0.25rem, 2.25rem); /* 22px → 36px */
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: var(--fw-bold);
+}
+
+.text-heading-lg {
+  font-family: var(--font-heading);
+  font-size: clamp(1.125rem, 1.75vw + 0.25rem, 1.75rem); /* 18px → 28px */
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  font-weight: var(--fw-semibold);
+}
+
+.text-heading-md {
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 1.25vw + 0.125rem, 1.375rem);   /* 16px → 22px */
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-weight: var(--fw-semibold);
+}
+
+.text-heading-sm {
+  font-family: var(--font-heading);
+  font-size: 1rem;                                        /* 16px */
+  line-height: 1.4;
+  letter-spacing: -0.005em;
+  font-weight: var(--fw-semibold);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   BODY  –  Paragraphs, descriptions
+   ──────────────────────────────────────────────────────────── */
+
+.text-body-xl {
+  font-family: var(--font-body);
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem); /* 18px → 22px */
+  line-height: 1.8;
+  font-weight: var(--fw-regular);
+}
+
+.text-body-lg {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.25vw, 1.125rem);    /* 16px → 18px */
+  line-height: 1.75;
+  font-weight: var(--fw-regular);
+}
+
+.text-body-md {
+  font-family: var(--font-body);
+  font-size: 1rem;                              /* 16px */
+  line-height: 1.7;
+  font-weight: var(--fw-regular);
+}
+
+.text-body-sm {
+  font-family: var(--font-body);
+  font-size: 0.875rem;                          /* 14px */
+  line-height: 1.65;
+  font-weight: var(--fw-regular);
+}
+
+.text-body-xs {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;                         /* 13px */
+  line-height: 1.6;
+  font-weight: var(--fw-regular);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   UI  –  Labels, captions, overlines, nav
+   ──────────────────────────────────────────────────────────── */
+
+.text-label-lg {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;                         /* 15px */
+  line-height: 1.4;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
+}
+
+.text-label-md {
+  font-family: var(--font-body);
+  font-size: 0.875rem;                          /* 14px */
+  line-height: 1.4;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.01em;
+}
+
+.text-label-sm {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;                         /* 13px */
+  line-height: 1.35;
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.015em;
+}
+
+.text-caption {
+  font-family: var(--font-body);
+  font-size: 0.75rem;                           /* 12px */
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--color-text-muted);
+}
+
+.text-overline {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;                         /* 11px */
+  line-height: 1.4;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   CODE  –  Inline code, terminal snippets
+   ──────────────────────────────────────────────────────────── */
+
+.text-code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  line-height: 1.6;
+  color: var(--color-text-accent);
+  background-color: var(--color-bg-elevated);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border);
+}
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+}
+
+pre {
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   GRADIENT TEXT  –  Reusable combos
+   (color fills defined in globals.css)
+   ──────────────────────────────────────────────────────────── */
+
+/* Used alongside display/heading classes:
+   <h1 class="text-display-xl text-gradient">...</h1>  */

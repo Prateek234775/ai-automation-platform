@@ -1,0 +1,647 @@
+/* ============================================================
+   COMPONENT SYSTEM
+   Reusable class-based component styles.
+   Every value references a CSS variable – zero hardcoded colors.
+   ============================================================ */
+
+
+/* ────────────────────────────────────────────────────────────
+   BUTTONS
+   Base: .btn
+   Variants: .btn-primary .btn-secondary .btn-ghost .btn-danger
+   Sizes: .btn-sm .btn-md (default) .btn-lg .btn-xl
+   Modifiers: .btn-icon .btn-full
+   ──────────────────────────────────────────────────────────── */
+
+/* Base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-body);
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  transition: var(--transition-colors),
+              transform var(--duration-fast) var(--ease-spring),
+              box-shadow var(--duration-base) var(--ease-default);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Shine sweep on hover (pseudo overlay) */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.07) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  transition: transform var(--duration-slow) var(--ease-default);
+}
+.btn:hover::before {
+  transform: translateX(100%);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.975);
+}
+
+/* --- Sizes --- */
+.btn-sm {
+  padding: var(--space-2) var(--space-4);
+  font-size: 0.8125rem;
+  border-radius: var(--radius-md);
+  letter-spacing: 0.01em;
+}
+
+.btn-md {
+  padding: calc(var(--space-2) + 2px) var(--space-6);
+  font-size: 0.9375rem;
+  letter-spacing: 0.01em;
+}
+
+.btn-lg {
+  padding: var(--space-3) var(--space-8);
+  font-size: 1rem;
+  border-radius: var(--radius-xl);
+  letter-spacing: 0.005em;
+}
+
+.btn-xl {
+  padding: var(--space-4) var(--space-10);
+  font-size: 1.0625rem;
+  border-radius: var(--radius-xl);
+  gap: var(--space-3);
+}
+
+/* --- Modifiers --- */
+.btn-full { width: 100%; }
+
+.btn-icon {
+  padding: var(--space-2);
+  aspect-ratio: 1;
+}
+.btn-icon.btn-sm { padding: var(--space-1); }
+.btn-icon.btn-lg { padding: var(--space-3); }
+
+
+/* --- Primary: solid gradient --- */
+.btn-primary {
+  background: var(--gradient-indigo);
+  color: var(--clr-white);
+  border-color: transparent;
+  box-shadow: var(--shadow-glow-sm),
+              inset 0 1px 0 rgba(255,255,255,0.15);
+}
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg,
+    var(--clr-indigo-400) 0%,
+    var(--clr-violet-500) 100%);
+  box-shadow: var(--shadow-glow-md),
+              inset 0 1px 0 rgba(255,255,255,0.20);
+  transform: translateY(-1px);
+}
+.btn-primary:focus-visible {
+  outline-color: var(--color-border-focus);
+  box-shadow: var(--shadow-glow-md), 0 0 0 3px var(--color-accent-glow);
+}
+
+
+/* --- Secondary: outlined accent --- */
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text-primary);
+  border-color: var(--color-border-accent);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.10);
+  border-color: var(--color-accent-hover);
+  color: var(--clr-indigo-300);
+  box-shadow: var(--shadow-glow-sm),
+              inset 0 1px 0 rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+}
+.btn-secondary:focus-visible {
+  outline-color: var(--color-border-focus);
+}
+
+
+/* --- Ghost: no border, subtle hover --- */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border-color: transparent;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--clr-white-08);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+.btn-ghost:focus-visible {
+  outline-color: var(--color-border-focus);
+}
+
+
+/* --- Highlight: cyan accent --- */
+.btn-highlight {
+  background: linear-gradient(135deg,
+    var(--clr-cyan-600) 0%,
+    var(--clr-cyan-400) 100%);
+  color: var(--clr-bg-00);
+  border-color: transparent;
+  box-shadow: var(--shadow-glow-cyan);
+}
+.btn-highlight:hover:not(:disabled) {
+  background: linear-gradient(135deg,
+    var(--clr-cyan-500) 0%,
+    var(--clr-cyan-300) 100%);
+  box-shadow: var(--shadow-glow-cyan),
+              0 0 40px rgba(6, 182, 212, 0.20);
+  transform: translateY(-1px);
+}
+
+
+/* --- Danger --- */
+.btn-danger {
+  background: transparent;
+  color: var(--color-error);
+  border-color: rgba(244, 63, 94, 0.35);
+}
+.btn-danger:hover:not(:disabled) {
+  background: var(--color-error-muted);
+  border-color: var(--color-error);
+  box-shadow: 0 0 20px rgba(244, 63, 94, 0.25);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   GLASS CARDS
+   Base: .card
+   Variants: .card-glass .card-solid .card-elevated .card-highlight
+   Modifiers: .card-interactive .card-glow
+   ──────────────────────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+/* Glass morphism – the main card style */
+.card-glass {
+  background: var(--gradient-glass);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+.card-glass::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--gradient-glass);
+  pointer-events: none;
+}
+
+/* Solid surface card */
+.card-solid {
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--shadow-card);
+}
+
+/* Higher elevation */
+.card-elevated {
+  background-color: var(--color-bg-overlay);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-border-strong);
+}
+
+/* Accent-highlighted card (pricing "most popular", hero feature) */
+.card-highlight {
+  background: linear-gradient(
+    145deg,
+    rgba(99, 102, 241, 0.12) 0%,
+    rgba(139, 92, 246, 0.08) 50%,
+    rgba(6, 182, 212, 0.06) 100%
+  );
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-card),
+              inset 0 1px 0 rgba(255,255,255,0.08),
+              0 0 0 1px var(--color-border-accent);
+}
+
+/* Interactive hover state – applies to .card-glass, .card-solid, .card-elevated */
+.card-interactive {
+  cursor: pointer;
+  transition: var(--transition-colors),
+              transform var(--duration-base) var(--ease-spring),
+              box-shadow var(--duration-base) var(--ease-default);
+}
+.card-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-border-accent);
+}
+.card-interactive:active {
+  transform: translateY(-1px);
+}
+
+/* Persistent glow ring */
+.card-glow {
+  box-shadow: var(--shadow-card),
+              var(--shadow-glow-sm);
+}
+.card-glow:hover {
+  box-shadow: var(--shadow-card-hover),
+              var(--shadow-glow-md);
+}
+
+/* Inner padding helpers */
+.card-body     { padding: var(--space-6); }
+.card-body-sm  { padding: var(--space-4); }
+.card-body-lg  { padding: var(--space-8); }
+
+/* Top accent bar */
+.card-accent-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient-brand);
+  border-radius: var(--radius-full) var(--radius-full) 0 0;
+}
+
+/* Shimmer overlay on hover */
+.card-shimmer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-shimmer);
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-default);
+  pointer-events: none;
+  z-index: 1;
+}
+.card-shimmer:hover::before {
+  opacity: 1;
+  animation: shimmer-sweep 1s ease forwards;
+}
+
+@keyframes shimmer-sweep {
+  from { background-position: -200% center; }
+  to   { background-position:  200% center; }
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   BADGES / PILLS
+   Base: .badge
+   Variants: .badge-accent .badge-secondary .badge-success
+             .badge-warning .badge-error .badge-outline .badge-subtle
+   ──────────────────────────────────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: var(--fw-semibold);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  border: 1px solid transparent;
+}
+
+.badge-accent {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--clr-indigo-300);
+  border-color: rgba(99, 102, 241, 0.30);
+}
+
+.badge-secondary {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--clr-violet-300);
+  border-color: rgba(139, 92, 246, 0.30);
+}
+
+.badge-highlight {
+  background: rgba(6, 182, 212, 0.12);
+  color: var(--clr-cyan-300);
+  border-color: rgba(6, 182, 212, 0.28);
+}
+
+.badge-success {
+  background: var(--color-success-muted);
+  color: var(--clr-emerald-400);
+  border-color: rgba(16, 185, 129, 0.30);
+}
+
+.badge-warning {
+  background: var(--color-warning-muted);
+  color: var(--clr-amber-400);
+  border-color: rgba(245, 158, 11, 0.30);
+}
+
+.badge-error {
+  background: var(--color-error-muted);
+  color: var(--clr-rose-400);
+  border-color: rgba(244, 63, 94, 0.30);
+}
+
+.badge-outline {
+  background: transparent;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-strong);
+}
+
+.badge-subtle {
+  background: var(--clr-white-04);
+  color: var(--color-text-muted);
+  border-color: var(--color-border);
+}
+
+/* Larger eyebrow badge (above hero headline) */
+.badge-eyebrow {
+  padding: var(--space-1) var(--space-4);
+  font-size: 0.8125rem;
+  letter-spacing: 0.03em;
+  background: rgba(99, 102, 241, 0.12);
+  color: var(--clr-indigo-300);
+  border-color: rgba(99, 102, 241, 0.28);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.10);
+}
+.badge-eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--clr-indigo-400);
+  box-shadow: 0 0 8px var(--color-accent-glow);
+  flex-shrink: 0;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   DIVIDERS
+   ──────────────────────────────────────────────────────────── */
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.divider-glow {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--color-border-accent) 30%,
+    var(--color-accent) 50%,
+    var(--color-border-accent) 70%,
+    transparent 100%
+  );
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   GRADIENT BACKGROUND SECTIONS
+   Use on section wrappers. Each sets a background only,
+   leaving layout to Tailwind utilities.
+   ──────────────────────────────────────────────────────────── */
+
+.gradient-hero {
+  background: var(--gradient-bg-hero);
+}
+
+.gradient-section-subtle {
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 100%,
+      rgba(99, 102, 241, 0.06) 0%, transparent 70%),
+    var(--color-bg-base);
+}
+
+.gradient-section-mid {
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%,
+      rgba(139, 92, 246, 0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 50% 100%,
+      rgba(99, 102, 241, 0.07) 0%, transparent 60%),
+    var(--color-bg-subtle);
+}
+
+.gradient-cta-section {
+  background: var(--gradient-bg-cta);
+}
+
+/* Glowing orb decorations (apply to positioned divs, not backgrounds) */
+.orb {
+  position: absolute;
+  border-radius: var(--radius-full);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: var(--z-below);
+}
+
+.orb-primary {
+  background: radial-gradient(circle,
+    rgba(99, 102, 241, 0.35) 0%,
+    transparent 70%
+  );
+}
+
+.orb-secondary {
+  background: radial-gradient(circle,
+    rgba(139, 92, 246, 0.28) 0%,
+    transparent 70%
+  );
+}
+
+.orb-highlight {
+  background: radial-gradient(circle,
+    rgba(6, 182, 212, 0.22) 0%,
+    transparent 70%
+  );
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   FORM ELEMENTS
+   Input, textarea, select – consistent with design system
+   ──────────────────────────────────────────────────────────── */
+
+.input {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  outline: none;
+  transition: var(--transition-colors);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:hover:not(:disabled) {
+  border-color: var(--color-border-strong);
+}
+
+.input:focus {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px var(--color-accent-glow-sm);
+}
+
+.input:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   HOVER UTILITIES
+   Standalone utility classes for hover treatments.
+   ──────────────────────────────────────────────────────────── */
+
+/* Text link hover */
+.hover-accent {
+  transition: color var(--transition-base);
+}
+.hover-accent:hover {
+  color: var(--color-text-accent);
+}
+
+/* Lift transform */
+.hover-lift {
+  transition: transform var(--duration-base) var(--ease-spring),
+              box-shadow var(--duration-base) var(--ease-default);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Scale */
+.hover-scale {
+  transition: transform var(--duration-fast) var(--ease-spring);
+}
+.hover-scale:hover {
+  transform: scale(1.03);
+}
+
+/* Glow ring */
+.hover-glow {
+  transition: box-shadow var(--duration-base) var(--ease-default);
+}
+.hover-glow:hover {
+  box-shadow: var(--shadow-glow-md);
+}
+
+/* Underline reveal */
+.hover-underline {
+  position: relative;
+}
+.hover-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gradient-brand);
+  transition: width var(--duration-base) var(--ease-out);
+}
+.hover-underline:hover::after {
+  width: 100%;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   SECTION HEADINGS  –  Eyebrow + title combo layout helper
+   ──────────────────────────────────────────────────────────── */
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  margin-bottom: var(--space-16);
+}
+
+.section-header--left {
+  align-items: flex-start;
+  text-align: left;
+  margin-inline: 0;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   ICON WRAPPERS
+   ──────────────────────────────────────────────────────────── */
+
+.icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-accent);
+  flex-shrink: 0;
+}
+
+.icon-box-lg {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-xl);
+}
+
+.icon-box-accent {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.28);
+  color: var(--clr-indigo-300);
+}
+
+.icon-box-gradient {
+  background: var(--gradient-brand);
+  border-color: transparent;
+  color: var(--clr-white);
+  box-shadow: var(--shadow-glow-sm);
+}

@@ -1,0 +1,341 @@
+/* ============================================================
+   TESTIMONIALS – Infinite CSS Marquee
+   Zero JS. Pure CSS animation.
+   Pauses on hover via animation-play-state.
+   ============================================================ */
+
+
+/* ────────────────────────────────────────────────────────────
+   SECTION SHELL
+   ──────────────────────────────────────────────────────────── */
+
+.testimonials-section {
+  padding-block: var(--section-py);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ambient background orb */
+.testimonials-section::before {
+  content: "";
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  translate: -50% 0;
+  width: clamp(500px, 70vw, 900px);
+  height: 50%;
+  background: radial-gradient(
+    ellipse,
+    rgba(139, 92, 246, 0.07) 0%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.testimonials-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   MARQUEE WRAPPER
+   Full-bleed — deliberately breaks out of .container.
+   ──────────────────────────────────────────────────────────── */
+
+.testimonials-marquee {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-12);
+  /* Let the marquee overflow the viewport edges */
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Left/right fade masks — composited on GPU */
+.testimonials-marquee::before,
+.testimonials-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: clamp(80px, 12vw, 200px);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.testimonials-marquee::before {
+  left: 0;
+  background: linear-gradient(
+    to right,
+    var(--color-bg-base) 0%,
+    transparent 100%
+  );
+}
+
+.testimonials-marquee::after {
+  right: 0;
+  background: linear-gradient(
+    to left,
+    var(--color-bg-base) 0%,
+    transparent 100%
+  );
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   MARQUEE ROW
+   Each row scrolls independently.
+   Row 1: left  (translateX: 0 → -50%)
+   Row 2: right (translateX: -50% → 0)  via reverse direction
+   ──────────────────────────────────────────────────────────── */
+
+.marquee-row {
+  display: flex;
+  width: max-content;
+  /* Pause when user hovers anywhere on this row */
+  --play-state: running;
+}
+
+.marquee-row:hover {
+  --play-state: paused;
+}
+
+/* The moving <ul> track */
+.marquee-track {
+  display: flex;
+  gap: var(--space-5);
+  /* Animation driven by --marquee-speed set inline per row */
+  animation: marquee-scroll var(--marquee-speed, 40s) linear infinite;
+  animation-play-state: var(--play-state);
+  will-change: transform;
+}
+
+/* Reverse direction for row 2 */
+.marquee-row--reverse .marquee-track {
+  animation-name: marquee-scroll-reverse;
+}
+
+/* ── Keyframes ── */
+
+/* Scroll left: 0 → -50% (because track is doubled, so -50% = one full set) */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Scroll right: -50% → 0 */
+@keyframes marquee-scroll-reverse {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   MARQUEE ITEM
+   ──────────────────────────────────────────────────────────── */
+
+.marquee-item {
+  /* Fixed width so cards don't resize during scroll */
+  flex: 0 0 auto;
+  width: clamp(280px, 30vw, 380px);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   TESTIMONIAL CARD  (glass morphism)
+   ──────────────────────────────────────────────────────────── */
+
+.testimonial-card {
+  /* Per-card accent tokens set via inline style in TestimonialCard.tsx */
+  --tc-avatar-bg:     rgba(99,102,241,0.14);
+  --tc-avatar-border: rgba(99,102,241,0.28);
+  --tc-avatar-text:   var(--clr-indigo-300);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  height: 100%;
+
+  /* Glass card */
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.06) 0%,
+    rgba(255,255,255,0.02) 100%
+  );
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+
+  /* Compound shadow */
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.40),
+    0 4px 12px rgba(0,0,0,0.30),
+    0 0 0 1px var(--color-border);
+
+  transition:
+    transform       160ms var(--anim-hover-ease, cubic-bezier(0,0,0.2,1)),
+    box-shadow      160ms var(--anim-hover-ease, cubic-bezier(0,0,0.2,1)),
+    border-color    160ms var(--anim-hover-ease, cubic-bezier(0,0,0.2,1));
+}
+
+/* Top gradient accent line */
+.testimonial-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--tc-avatar-border) 30%,
+    var(--tc-avatar-text) 50%,
+    var(--tc-avatar-border) 70%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 160ms;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--tc-avatar-border);
+  box-shadow:
+    0 2px 4px  rgba(0,0,0,0.50),
+    0 8px 24px rgba(0,0,0,0.40),
+    0 0 0 1px var(--tc-avatar-border),
+    0 0 32px   rgba(99,102,241,0.12);
+}
+
+.testimonial-card:hover::before {
+  opacity: 1;
+}
+
+/* ── Quote icon ── */
+.testimonial-card__quote-icon {
+  width: 2rem;
+  height: 1.5rem;
+  color: var(--tc-avatar-text);
+  flex-shrink: 0;
+}
+
+/* ── Star rating ── */
+.star-rating {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+.star-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--clr-amber-400);
+  flex-shrink: 0;
+}
+
+/* ── Quote text ── */
+.testimonial-card__quote {
+  flex: 1;
+}
+
+.testimonial-card__text {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  font-style: normal; /* override browser blockquote italic */
+}
+
+/* ── Author figcaption ── */
+.testimonial-card__author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* Avatar */
+.testimonial-card__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.testimonial-card__avatar--img {
+  object-fit: cover;
+}
+
+.testimonial-card__avatar--initials {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tc-avatar-bg);
+  border: 1px solid var(--tc-avatar-border);
+  color: var(--tc-avatar-text);
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+}
+
+/* Author meta */
+.testimonial-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.testimonial-card__name {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.testimonial-card__role {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   REDUCED MOTION
+   ──────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+  .marquee-row {
+    /* On reduced motion, show as a horizontal scroll container */
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+  .marquee-track {
+    width: max-content;
+  }
+  .testimonial-card {
+    transition: none;
+  }
+}

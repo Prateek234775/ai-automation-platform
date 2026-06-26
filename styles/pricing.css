@@ -1,0 +1,556 @@
+/* ============================================================
+   PRICING SECTION
+   Scoped styles for Pricing, PricingControls, PricingCard.
+   Zero hardcoded colours — every value via CSS variable.
+   ============================================================ */
+
+
+/* ────────────────────────────────────────────────────────────
+   SECTION SHELL
+   ──────────────────────────────────────────────────────────── */
+
+.pricing-section {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--section-py);
+}
+
+/* Subtle top separator */
+.pricing-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-border-accent) 30%,
+    var(--color-accent) 50%,
+    var(--color-border-accent) 70%,
+    transparent 100%
+  );
+}
+
+/* Ambient orb */
+.pricing-section::after {
+  content: "";
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  translate: -50% 0;
+  width: clamp(400px, 60vw, 800px);
+  height: clamp(300px, 40vw, 600px);
+  background: radial-gradient(
+    ellipse,
+    rgba(99, 102, 241, 0.08) 0%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pricing-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   PRICING INTERACTIVE WRAPPER
+   ──────────────────────────────────────────────────────────── */
+
+.pricing-interactive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   PRICING CONTROLS  (toggle + currency)
+   ──────────────────────────────────────────────────────────── */
+
+.pricing-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* ── Billing toggle ── */
+.pricing-toggle {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pricing-toggle__track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: var(--space-1);
+}
+
+/* Each label is a pill option */
+.pricing-toggle__option {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: var(--fw-medium);
+  color: var(--color-text-muted);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: color var(--duration-base) var(--ease-default);
+  white-space: nowrap;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.pricing-toggle__option--active {
+  color: var(--color-text-primary);
+}
+
+/* Savings badge inside the annual label */
+.pricing-toggle__savings {
+  font-size: 0.65rem;
+  padding: 2px 6px;
+  line-height: 1;
+}
+
+/* Sliding pill indicator — translates left/right via CSS class */
+.pricing-toggle__indicator {
+  position: absolute;
+  top: var(--space-1);
+  bottom: var(--space-1);
+  /* Width = roughly half minus padding */
+  width: calc(50% - var(--space-1));
+  border-radius: var(--radius-full);
+  background: var(--color-bg-overlay);
+  border: 1px solid var(--color-border-accent);
+  box-shadow: var(--shadow-glow-sm);
+  transition: transform var(--duration-base) var(--ease-spring);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pricing-toggle__indicator--monthly {
+  transform: translateX(0);
+}
+
+.pricing-toggle__indicator--annual {
+  transform: translateX(100%);
+}
+
+/* Keyboard focus: show ring on the hidden radio's label */
+.pricing-toggle__option:has(input:focus-visible) {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+
+/* ── Currency selector ── */
+.pricing-currency {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pricing-currency__select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-2) var(--space-8) var(--space-2) var(--space-4);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition-colors);
+}
+
+.pricing-currency__select:hover {
+  border-color: var(--color-border-strong);
+}
+
+.pricing-currency__select:focus-visible {
+  border-color: var(--color-border-focus);
+  box-shadow: 0 0 0 3px var(--color-accent-glow-sm);
+}
+
+/* Custom dropdown arrow */
+.pricing-currency__chevron {
+  position: absolute;
+  right: var(--space-3);
+  width: 1rem;
+  height: 1rem;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   PRICING GRID
+   ──────────────────────────────────────────────────────────── */
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: start;
+  }
+}
+
+/* listitem wrappers don't affect layout */
+.pricing-grid > [role="listitem"] {
+  display: contents;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   PRICING CARD
+   Per-card accent tokens fed via inline style:
+     --pc-glow, --pc-border, --pc-gradient,
+     --pc-icon-bg, --pc-icon-border, --pc-icon-color
+   ──────────────────────────────────────────────────────────── */
+
+.pricing-card {
+  /* Fallback values — overridden per-card by inline style */
+  --pc-glow:         rgba(99,102,241,0.20);
+  --pc-border:       rgba(99,102,241,0.40);
+  --pc-gradient:     linear-gradient(135deg, rgba(99,102,241,0.10) 0%, transparent 100%);
+  --pc-icon-bg:      rgba(99,102,241,0.10);
+  --pc-icon-border:  rgba(99,102,241,0.25);
+  --pc-icon-color:   var(--clr-indigo-400);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-8);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform    var(--duration-base) var(--ease-spring),
+    box-shadow   var(--duration-base) var(--ease-default),
+    border-color var(--duration-base) var(--ease-default);
+}
+
+/* Hover */
+.pricing-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--pc-border);
+  box-shadow:
+    var(--shadow-xl),
+    0 0 40px var(--pc-glow),
+    0 0 0 1px var(--pc-border);
+}
+
+/* ── Gradient border ring (inert pseudo) ── */
+.pricing-card__ring {
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: var(--pc-gradient);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  padding: 1px;
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-default);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pricing-card:hover .pricing-card__ring {
+  opacity: 1;
+}
+
+/* ── Highlighted (Pro) card ── */
+.pricing-card--highlighted {
+  background: var(--pc-gradient);
+  border-color: var(--pc-border);
+  box-shadow:
+    var(--shadow-xl),
+    0 0 0 1px var(--pc-border),
+    0 0 60px var(--pc-glow);
+  /* Lift it slightly above siblings */
+  transform: translateY(-8px) scale(1.02);
+  transform-origin: center bottom;
+}
+
+.pricing-card--highlighted:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow:
+    var(--shadow-2xl),
+    0 0 0 1px var(--pc-border),
+    0 0 80px var(--pc-glow);
+}
+
+.pricing-card--highlighted .pricing-card__ring {
+  opacity: 1;
+  /* Animated border on the featured card */
+  animation: pricing-border-spin 5s linear infinite;
+}
+
+@keyframes pricing-border-spin {
+  0%   { background: linear-gradient(0deg,   var(--pc-border), transparent 50%, var(--pc-border) 100%); }
+  25%  { background: linear-gradient(90deg,  var(--pc-border), transparent 50%, var(--pc-border) 100%); }
+  50%  { background: linear-gradient(180deg, var(--pc-border), transparent 50%, var(--pc-border) 100%); }
+  75%  { background: linear-gradient(270deg, var(--pc-border), transparent 50%, var(--pc-border) 100%); }
+  100% { background: linear-gradient(360deg, var(--pc-border), transparent 50%, var(--pc-border) 100%); }
+}
+
+/* ── Badge ── */
+.pricing-card__badge {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pricing-card__badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+  animation: pulse-glow 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ── Header (icon + name + tagline) ── */
+.pricing-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.pricing-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid;
+  flex-shrink: 0;
+  transition:
+    box-shadow  var(--duration-base) var(--ease-default),
+    transform   var(--duration-base) var(--ease-spring);
+}
+
+.pricing-card:hover .pricing-card__icon {
+  box-shadow: 0 0 20px var(--pc-glow);
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.pricing-card__name {
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.pricing-card__tagline {
+  color: var(--color-text-muted);
+  margin-top: var(--space-1);
+}
+
+/* ── Price block ── */
+.pricing-card__price-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.pricing-card__price-row {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-1);
+}
+
+.pricing-card__price-amount {
+  font-family: var(--font-heading);
+  font-weight: var(--fw-extrabold);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--color-text-primary);
+  /* Animate price changes smoothly */
+  transition: opacity var(--duration-fast) var(--ease-default);
+}
+
+.pricing-card__price-period {
+  color: var(--color-text-muted);
+  padding-bottom: var(--space-1);
+}
+
+.pricing-card__annual-note {
+  color: var(--color-text-muted);
+}
+
+/* ── Description ── */
+.pricing-card__description {
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  flex: 1;
+}
+
+/* ── CTA button ── */
+.pricing-card__cta {
+  margin-top: auto;
+}
+
+/* ── Divider ── */
+.pricing-card__divider {
+  margin-block: 0;
+  border-color: var(--color-border);
+}
+
+/* ── Feature list ── */
+.pricing-card__features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ── Feature row ── */
+.pricing-feature {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.pricing-feature--excluded .pricing-feature__text {
+  color: var(--color-text-disabled);
+  text-decoration: line-through;
+  text-decoration-color: var(--color-text-disabled);
+}
+
+.pricing-feature__icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.pricing-feature__icon--check {
+  color: var(--color-success);
+}
+
+.pricing-feature__icon--cross {
+  color: var(--color-text-disabled);
+}
+
+.pricing-feature__text {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pricing-feature__note {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   ENTERPRISE NOTE  (below grid)
+   ──────────────────────────────────────────────────────────── */
+
+.pricing-enterprise-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-10);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  max-width: 38rem;
+  margin-inline: auto;
+}
+
+.pricing-enterprise-note svg {
+  flex-shrink: 0;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   PRICE CHANGE ANIMATION
+   Triggered when cycle or currency changes — parent adds
+   .pricing-price--changing for one frame via JS, then removes.
+   Pure CSS handles the visual.
+   ──────────────────────────────────────────────────────────── */
+
+@keyframes price-swap {
+  0%   { opacity: 0; transform: translateY(6px);  }
+  100% { opacity: 1; transform: translateY(0);     }
+}
+
+.pricing-card__price-amount {
+  animation: price-swap var(--duration-base) var(--ease-out) both;
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   REDUCED MOTION
+   ──────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-card,
+  .pricing-card--highlighted,
+  .pricing-card__icon,
+  .pricing-toggle__indicator {
+    transition: none;
+  }
+
+  .pricing-card--highlighted .pricing-card__ring {
+    animation: none;
+  }
+
+  .pricing-card__price-amount {
+    animation: none;
+  }
+}
